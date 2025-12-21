@@ -3,8 +3,7 @@ syntax = "proto3";
 package proto.auction;
 
 // This option tells the compiler where to put the generated Go files.
-// Change 'yourusername' to your actual GitHub or project name.
-option go_package = "./backend/proto/pb";
+option go_package = "github.com/temesgen-abebayehu/bidflow/backend/proto/pb";
 
 // The AuctionService provides methods to query and validate auction states.
 service AuctionService {
