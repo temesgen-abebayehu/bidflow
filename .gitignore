@@ -1,0 +1,105 @@
+# ====================================================================
+# OS 
+# ====================================================================
+.DS_Store
+.DS_Store?
+atmp/
+composite/
+metadata/
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ====================================================================
+# IDE specific files
+# ====================================================================
+.visualstudio/
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+.vscode/*.log
+
+# ====================================================================
+# Go (Backend)
+# ====================================================================
+# Binaries for programs and plugins
+**/main
+**/main.exe
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin/
+pkg/
+
+# Test coverage
+*.out
+*.test
+cp.out
+coverage.txt
+
+# Go Workspace (Local dev environment)
+# Note: Some developers prefer to keep go.work, but usually, it's ignored 
+# if developers have different local paths.
+go.work
+go.work.sum
+
+# Vendor directory (if you use 'go mod vendor')
+vendor/
+
+# ====================================================================
+# Node.js / Frontend
+# ====================================================================
+node_modules/
+/frontend/dist
+/frontend/build
+/frontend/.next
+/frontend/out
+.npm
+.eslintcache
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ====================================================================
+# Environment Variables and Secrets (CRITICAL)
+# ====================================================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+*.key
+certs/
+
+# ====================================================================
+# Docker & Databases
+# ====================================================================
+# Local database data (Do NOT commit your actual DB data)
+# If you mount a local folder for Postgres data, ignore it
+pgdata/
+.docker/
+docker-compose.override.yaml
+/backend/infra/postgres-data/
+/backend/infra/kafka-data/
+.docker-temp/
+
+# ====================================================================
+# Kubernetes
+# ====================================================================
+.kube/
+kubeconfig
+*.generated.yaml
+
+# ====================================================================
+# Logs 
+# ====================================================================
+logs/
+*.log
+_logs/

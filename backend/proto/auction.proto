@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package proto.auction;
+
+// This option tells the compiler where to put the generated Go files.
+// Change 'yourusername' to your actual GitHub or project name.
+option go_package = "./backend/proto/pb";
+
+// The AuctionService provides methods to query and validate auction states.
+service AuctionService {
+    
+    // ValidateBid is called by the Bidding Service. 
+    // It checks if the auction is ACTIVE and if the new bid is higher than the current one.
+    rpc ValidateBid(BidRequest) returns (BidResponse);
+
+    // GetAuctionStatus allows other services to fetch the current state of an item.
+    rpc GetAuctionStatus(StatusRequest) returns (StatusResponse);
+}
+
+// Data sent from Bidding Service -> Auction Service
+message BidRequest {
+    string auction_id = 1;
+    double amount = 2;
+    string bidder_id = 3;
+}
+
+// Data sent from Auction Service -> Bidding Service
+message BidResponse {
+    bool is_valid = 1;           // True if the bid is allowed
+    double current_price = 2;    // The price BEFORE this bid was processed
+    string message = 3;          // Error message if is_valid is false (e.g., "Auction closed")
+}
+
+// Data sent to check status
+message StatusRequest {
+    string auction_id = 1;
+}
+
+// Detailed status of an auction
+message StatusResponse {
+    string auction_id = 1;
+    string title = 2;
+    double current_price = 3;
+    string status = 4;           // e.g., "ACTIVE", "CLOSED", "PENDING"
+    int64 end_time_unix = 5;     // Unix timestamp of when it ends
+}
