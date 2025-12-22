@@ -36,9 +36,13 @@ jobs:
           version: latest
           working-directory: ./backend/services/auth
 
-      - name: Run Unit Tests
+      - name: Run Unit Tests (Common)
         run: go test -v ./...
-        working-directory: ./backend
+        working-directory: ./backend/common
+
+      - name: Run Unit Tests (Auth)
+        run: go test -v ./...
+        working-directory: ./backend/services/auth
 
   test-frontend:
     name: Frontend Check
