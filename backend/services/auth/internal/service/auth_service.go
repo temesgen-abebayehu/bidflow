@@ -13,10 +13,11 @@ import (
 type AuthService struct {
 	repo         domain.UserRepository
 	tokenManager *auth.TokenManager
+	producer     domain.EventProducer
 }
 
-func NewAuthService(r domain.UserRepository, tm *auth.TokenManager) domain.AuthService {
-	return &AuthService{repo: r, tokenManager: tm}
+func NewAuthService(r domain.UserRepository, tm *auth.TokenManager, p domain.EventProducer) domain.AuthService {
+	return &AuthService{repo: r, tokenManager: tm, producer: p}
 }
 
 func (s *AuthService) Register(ctx context.Context, req auth.RegisterRequest) error {
@@ -29,7 +30,10 @@ func (s *AuthService) Register(ctx context.Context, req auth.RegisterRequest) er
 		Role:     req.Role,
 		IsActive: true,
 	}
-	return s.repo.CreateUser(ctx, user)
+	if err := s.repo.CreateUser(ctx, user); err != nil {
+		return err
+	}
+	return s.producer.PublishUserRegistered(ctx, user)
 }
 
 // Login returns (userDTO, token, mfaRequired, error)

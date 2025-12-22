@@ -44,7 +44,8 @@ func (m *MockCompanyRepository) VerifyCompany(ctx context.Context, id uuid.UUID)
 func TestGetProfile(t *testing.T) {
 	mockRepo := new(MockUserRepository)
 	mockCompanyRepo := new(MockCompanyRepository)
-	svc := service.NewUserService(mockRepo, mockCompanyRepo)
+	mockProducer := new(MockEventProducer)
+	svc := service.NewUserService(mockRepo, mockCompanyRepo, mockProducer)
 
 	userID := uuid.New()
 	user := &domain.User{
@@ -62,7 +63,8 @@ func TestGetProfile(t *testing.T) {
 func TestCreateCompany(t *testing.T) {
 	mockRepo := new(MockUserRepository)
 	mockCompanyRepo := new(MockCompanyRepository)
-	svc := service.NewUserService(mockRepo, mockCompanyRepo)
+	mockProducer := new(MockEventProducer)
+	svc := service.NewUserService(mockRepo, mockCompanyRepo, mockProducer)
 
 	userID := uuid.New()
 	user := &domain.User{
@@ -87,7 +89,8 @@ func TestCreateCompany(t *testing.T) {
 func TestUpdateProfile(t *testing.T) {
 	mockRepo := new(MockUserRepository)
 	mockCompanyRepo := new(MockCompanyRepository)
-	svc := service.NewUserService(mockRepo, mockCompanyRepo)
+	mockProducer := new(MockEventProducer)
+	svc := service.NewUserService(mockRepo, mockCompanyRepo, mockProducer)
 
 	userID := uuid.New()
 	user := &domain.User{
@@ -110,20 +113,24 @@ func TestUpdateProfile(t *testing.T) {
 func TestVerifyUser(t *testing.T) {
 	mockRepo := new(MockUserRepository)
 	mockCompanyRepo := new(MockCompanyRepository)
-	svc := service.NewUserService(mockRepo, mockCompanyRepo)
+	mockProducer := new(MockEventProducer)
+	svc := service.NewUserService(mockRepo, mockCompanyRepo, mockProducer)
 
 	userID := uuid.New()
 
 	mockRepo.On("VerifyUser", mock.Anything, userID).Return(nil)
+	mockProducer.On("PublishUserVerified", mock.Anything, userID).Return(nil)
 
 	err := svc.VerifyUser(context.Background(), userID.String())
 	assert.NoError(t, err)
+	mockProducer.AssertExpectations(t)
 }
 
 func TestUpdateCompany(t *testing.T) {
 	mockRepo := new(MockUserRepository)
 	mockCompanyRepo := new(MockCompanyRepository)
-	svc := service.NewUserService(mockRepo, mockCompanyRepo)
+	mockProducer := new(MockEventProducer)
+	svc := service.NewUserService(mockRepo, mockCompanyRepo, mockProducer)
 
 	companyID := uuid.New()
 	company := &domain.Company{
@@ -145,7 +152,8 @@ func TestUpdateCompany(t *testing.T) {
 func TestVerifyCompany(t *testing.T) {
 	mockRepo := new(MockUserRepository)
 	mockCompanyRepo := new(MockCompanyRepository)
-	svc := service.NewUserService(mockRepo, mockCompanyRepo)
+	mockProducer := new(MockEventProducer)
+	svc := service.NewUserService(mockRepo, mockCompanyRepo, mockProducer)
 
 	companyID := uuid.New()
 
@@ -158,7 +166,8 @@ func TestVerifyCompany(t *testing.T) {
 func TestGetCompany(t *testing.T) {
 	mockRepo := new(MockUserRepository)
 	mockCompanyRepo := new(MockCompanyRepository)
-	svc := service.NewUserService(mockRepo, mockCompanyRepo)
+	mockProducer := new(MockEventProducer)
+	svc := service.NewUserService(mockRepo, mockCompanyRepo, mockProducer)
 
 	companyID := uuid.New()
 	company := &domain.Company{

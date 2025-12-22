@@ -15,10 +15,11 @@ import (
 type UserService struct {
 	repo        domain.UserRepository
 	companyRepo domain.CompanyRepository
+	producer    domain.EventProducer
 }
 
-func NewUserService(r domain.UserRepository, cr domain.CompanyRepository) domain.UserService {
-	return &UserService{repo: r, companyRepo: cr}
+func NewUserService(r domain.UserRepository, cr domain.CompanyRepository, p domain.EventProducer) domain.UserService {
+	return &UserService{repo: r, companyRepo: cr, producer: p}
 }
 
 func (s *UserService) GetProfile(ctx context.Context, userID string) (*auth.UserDTO, error) {
@@ -68,7 +69,10 @@ func (s *UserService) VerifyUser(ctx context.Context, userID string) error {
 	if err != nil {
 		return errors.New("invalid user id")
 	}
-	return s.repo.VerifyUser(ctx, id)
+	if err := s.repo.VerifyUser(ctx, id); err != nil {
+		return err
+	}
+	return s.producer.PublishUserVerified(ctx, id)
 }
 
 func (s *UserService) CreateCompany(ctx context.Context, userID string, req auth.CreateCompanyRequest) (*auth.CompanyDTO, error) {

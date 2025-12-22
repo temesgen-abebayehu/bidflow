@@ -56,10 +56,26 @@ func (m *MockUserRepository) VerifyUser(ctx context.Context, userID uuid.UUID) e
 	return args.Error(0)
 }
 
+// MockEventProducer
+type MockEventProducer struct {
+	mock.Mock
+}
+
+func (m *MockEventProducer) PublishUserRegistered(ctx context.Context, user *domain.User) error {
+	args := m.Called(ctx, user)
+	return args.Error(0)
+}
+
+func (m *MockEventProducer) PublishUserVerified(ctx context.Context, userID uuid.UUID) error {
+	args := m.Called(ctx, userID)
+	return args.Error(0)
+}
+
 func TestRegister(t *testing.T) {
 	mockRepo := new(MockUserRepository)
+	mockProducer := new(MockEventProducer)
 	tm := auth.NewTokenManager("secret")
-	svc := service.NewAuthService(mockRepo, tm)
+	svc := service.NewAuthService(mockRepo, tm, mockProducer)
 
 	req := auth.RegisterRequest{
 		Email:    "test@example.com",
@@ -71,15 +87,19 @@ func TestRegister(t *testing.T) {
 		return u.Email == req.Email && u.Role == req.Role
 	})).Return(nil)
 
+	mockProducer.On("PublishUserRegistered", mock.Anything, mock.Anything).Return(nil)
+
 	err := svc.Register(context.Background(), req)
 	assert.NoError(t, err)
 	mockRepo.AssertExpectations(t)
+	mockProducer.AssertExpectations(t)
 }
 
 func TestLogin(t *testing.T) {
 	mockRepo := new(MockUserRepository)
+	mockProducer := new(MockEventProducer)
 	tm := auth.NewTokenManager("secret")
-	svc := service.NewAuthService(mockRepo, tm)
+	svc := service.NewAuthService(mockRepo, tm, mockProducer)
 
 	hashedPassword, _ := auth.HashPassword("password")
 	user := &domain.User{
@@ -100,8 +120,9 @@ func TestLogin(t *testing.T) {
 
 func TestLogin_InvalidPassword(t *testing.T) {
 	mockRepo := new(MockUserRepository)
+	mockProducer := new(MockEventProducer)
 	tm := auth.NewTokenManager("secret")
-	svc := service.NewAuthService(mockRepo, tm)
+	svc := service.NewAuthService(mockRepo, tm, mockProducer)
 
 	hashedPassword, _ := auth.HashPassword("password")
 	user := &domain.User{
@@ -119,8 +140,9 @@ func TestLogin_InvalidPassword(t *testing.T) {
 
 func TestVerify2FA(t *testing.T) {
 	mockRepo := new(MockUserRepository)
+	mockProducer := new(MockEventProducer)
 	tm := auth.NewTokenManager("secret")
-	svc := service.NewAuthService(mockRepo, tm)
+	svc := service.NewAuthService(mockRepo, tm, mockProducer)
 
 	// Generate a real secret for testing
 	key, _ := totp.Generate(totp.GenerateOpts{Issuer: "Test", AccountName: "test@example.com"})
@@ -143,8 +165,9 @@ func TestVerify2FA(t *testing.T) {
 
 func TestToggle2FA(t *testing.T) {
 	mockRepo := new(MockUserRepository)
+	mockProducer := new(MockEventProducer)
 	tm := auth.NewTokenManager("secret")
-	svc := service.NewAuthService(mockRepo, tm)
+	svc := service.NewAuthService(mockRepo, tm, mockProducer)
 
 	userID := uuid.New()
 

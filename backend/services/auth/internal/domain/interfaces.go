@@ -40,3 +40,8 @@ type UserService interface {
 	VerifyCompany(ctx context.Context, companyID string) error
 	GetCompany(ctx context.Context, companyID string) (*auth.CompanyDTO, error)
 }
+
+type EventProducer interface {
+	PublishUserRegistered(ctx context.Context, user *User) error
+	PublishUserVerified(ctx context.Context, userID uuid.UUID) error
+}
