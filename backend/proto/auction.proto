@@ -2,44 +2,166 @@ syntax = "proto3";
 
 package proto.auction;
 
-// This option tells the compiler where to put the generated Go files.
 option go_package = "github.com/temesgen-abebayehu/bidflow/backend/proto/pb";
 
-// The AuctionService provides methods to query and validate auction states.
+/**
+ * AuctionService handles the lifecycle and operations of auctions within the system.
+ * It provides methods for creating, retrieving, updating, and closing auctions,
+ * as well as internal validation and status checks.
+ */
 service AuctionService {
-    
-    // ValidateBid is called by the Bidding Service. 
-    // It checks if the auction is ACTIVE and if the new bid is higher than the current one.
+    /**
+     * Validates a bid against current auction rules and constraints.
+     * This is primarily an internal or inter-service method used to ensure bid integrity
+     * before processing.
+     *
+     * @param BidRequest The details of the bid to be validated.
+     * @return BidResponse The result of the validation, indicating success or failure reasons.
+     */
     rpc ValidateBid(BidRequest) returns (BidResponse);
 
-    // GetAuctionStatus allows other services to fetch the current state of an item.
+    /**
+     * Retrieves the current operational status of a specific auction.
+     * Useful for checking if an auction is active, pending, or closed without fetching full details.
+     *
+     * @param StatusRequest The request containing the auction ID.
+     * @return StatusResponse The current status of the requested auction.
+     */
     rpc GetAuctionStatus(StatusRequest) returns (StatusResponse);
+
+    /**
+     * Creates a new auction with the specified parameters.
+     *
+     * @param CreateAuctionRequest The initial configuration for the new auction.
+     * @return CreateAuctionResponse The details of the created auction, including its generated ID.
+     */
+    rpc CreateAuction(CreateAuctionRequest) returns (CreateAuctionResponse);
+
+    /**
+     * Retrieves detailed information about a specific auction.
+     *
+     * @param GetAuctionRequest The request containing the unique identifier of the auction.
+     * @return GetAuctionResponse The full details of the requested auction.
+     */
+    rpc GetAuction(GetAuctionRequest) returns (GetAuctionResponse);
+
+    /**
+     * Lists auctions based on provided filtering and pagination criteria.
+     *
+     * @param ListAuctionsRequest The criteria for filtering and pagination.
+     * @return ListAuctionsResponse A list of auctions matching the criteria.
+     */
+    rpc ListAuctions(ListAuctionsRequest) returns (ListAuctionsResponse);
+
+    /**
+     * Updates the configuration or details of an existing auction.
+     *
+     * @param UpdateAuctionRequest The fields to update and the auction identifier.
+     * @return UpdateAuctionResponse The updated state of the auction.
+     */
+    rpc UpdateAuction(UpdateAuctionRequest) returns (UpdateAuctionResponse);
+
+    /**
+     * Manually closes an auction, preventing further bids.
+     * This may trigger post-auction processing such as winner determination.
+     *
+     * @param CloseAuctionRequest The request containing the ID of the auction to close.
+     * @return CloseAuctionResponse The final state of the closed auction.
+     */
+    rpc CloseAuction(CloseAuctionRequest) returns (CloseAuctionResponse);
 }
 
-// Data sent from Bidding Service -> Auction Service
+message Auction {
+    string id = 1;
+    string seller_id = 2;
+    string title = 3;
+    string description = 4;
+    double start_price = 5;
+    double current_price = 6;
+    string status = 7; // ACTIVE, CLOSED, PENDING, CANCELLED
+    int64 start_time = 8;
+    int64 end_time = 9;
+    string category = 10;
+    string image_url = 11;
+}
+
+message CreateAuctionRequest {
+    string seller_id = 1;
+    string title = 2;
+    string description = 3;
+    double start_price = 4;
+    int64 start_time = 5;
+    int64 end_time = 6;
+    string category = 7;
+    string image_url = 8;
+}
+
+message CreateAuctionResponse {
+    Auction auction = 1;
+}
+
+message GetAuctionRequest {
+    string id = 1;
+}
+
+message GetAuctionResponse {
+    Auction auction = 1;
+}
+
+message ListAuctionsRequest {
+    int32 page = 1;
+    int32 limit = 2;
+    string status = 3; // Optional filter
+    string seller_id = 4; // Optional filter
+    string category = 5; // Optional filter
+}
+
+message ListAuctionsResponse {
+    repeated Auction auctions = 1;
+    int64 total_count = 2;
+}
+
+message UpdateAuctionRequest {
+    string id = 1;
+    string title = 2;
+    string description = 3;
+    string image_url = 4;
+}
+
+message UpdateAuctionResponse {
+    Auction auction = 1;
+}
+
+message CloseAuctionRequest {
+    string id = 1;
+}
+
+message CloseAuctionResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+// Existing messages
 message BidRequest {
     string auction_id = 1;
     double amount = 2;
     string bidder_id = 3;
 }
 
-// Data sent from Auction Service -> Bidding Service
 message BidResponse {
-    bool is_valid = 1;           // True if the bid is allowed
-    double current_price = 2;    // The price BEFORE this bid was processed
-    string message = 3;          // Error message if is_valid is false (e.g., "Auction closed")
+    bool is_valid = 1;
+    double current_price = 2;
+    string message = 3;
 }
 
-// Data sent to check status
 message StatusRequest {
     string auction_id = 1;
 }
 
-// Detailed status of an auction
 message StatusResponse {
     string auction_id = 1;
     string title = 2;
     double current_price = 3;
-    string status = 4;           // e.g., "ACTIVE", "CLOSED", "PENDING"
-    int64 end_time_unix = 5;     // Unix timestamp of when it ends
+    string status = 4;
+    int64 end_time_unix = 5;
 }
