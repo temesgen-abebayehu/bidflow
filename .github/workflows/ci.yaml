@@ -19,6 +19,11 @@ jobs:
         with:
           go-version: '1.24'
           cache: true
+          cache-dependency-path:
+            backend/common/go.sum
+            backend/services/auth/go.sum
+            backend/services/auction/go.sum
+            backend/proto/go.sum
 
       - name: Initialize Workspace
         run: go work init ./common ./services/auth ./services/auction ./proto
@@ -29,18 +34,21 @@ jobs:
         with:
           version: v1.64.5
           working-directory: ./backend/common
+          args: --timeout=5m
 
       - name: Run Linter (Auth)
         uses: golangci/golangci-lint-action@v6
         with:
           version: v1.64.5
           working-directory: ./backend/services/auth
+          args: --timeout=5m
 
       - name: Run Linter (Auction)
         uses: golangci/golangci-lint-action@v6
         with:
           version: v1.64.5
           working-directory: ./backend/services/auction
+          args: --timeout=5m
 
       - name: Run Unit Tests (Common)
         run: go test -v ./...
