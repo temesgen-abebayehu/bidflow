@@ -2,7 +2,9 @@ package auth
 
 import (
 	"testing"
+	"time"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 )
@@ -44,14 +46,24 @@ func (suite *AuthTestSuite) TestExpiredToken() {
 	userID := "user-123"
 	companyID := "company-456"
 	role := "BIDDER"
-	
-	// Create a token that expired 1 hour ago
-	token, _ := suite.tokenManager.GenerateToken(userID, companyID, role)
 
-	claims, err := suite.tokenManager.VerifyToken(token)
+	// Create a token that expired 1 hour ago
+	claims := UserClaims{
+		UserID:    userID,
+		CompanyID: companyID,
+		Role:      role,
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(-1 * time.Hour)),
+			IssuedAt:  jwt.NewNumericDate(time.Now().Add(-2 * time.Hour)),
+		},
+	}
+	tokenObj := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	token, _ := tokenObj.SignedString([]byte(suite.secretKey))
+
+	claimsResp, err := suite.tokenManager.VerifyToken(token)
 	assert.Error(suite.T(), err)
 	assert.Equal(suite.T(), ErrExpiredToken, err)
-	assert.Nil(suite.T(), claims)
+	assert.Nil(suite.T(), claimsResp)
 }
 
 func (suite *AuthTestSuite) TestInvalidToken() {

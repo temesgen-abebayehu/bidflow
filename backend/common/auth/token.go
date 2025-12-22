@@ -1,7 +1,9 @@
 package auth
 
 import (
+	"errors"
 	"time"
+
 	"github.com/golang-jwt/jwt/v5"
 )
 
@@ -38,7 +40,13 @@ func (tm *TokenManager) VerifyToken(tokenString string) (*UserClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &UserClaims{}, func(t *jwt.Token) (interface{}, error) {
 		return tm.secretKey, nil
 	})
-	if err != nil || !token.Valid {
+	if err != nil {
+		if errors.Is(err, jwt.ErrTokenExpired) {
+			return nil, ErrExpiredToken
+		}
+		return nil, ErrInvalidToken
+	}
+	if !token.Valid {
 		return nil, ErrInvalidToken
 	}
 	claims, ok := token.Claims.(*UserClaims)
