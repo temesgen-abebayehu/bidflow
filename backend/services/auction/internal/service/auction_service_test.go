@@ -6,8 +6,19 @@ import (
 	"testing"
 	"time"
 
+	"github.com/temesgen-abebayehu/bidflow/backend/common/logger"
 	"github.com/temesgen-abebayehu/bidflow/backend/services/auction/internal/domain"
+	"go.uber.org/zap"
 )
+
+type MockLogger struct{}
+
+func (m *MockLogger) Debug(msg string, fields ...zap.Field)  {}
+func (m *MockLogger) Info(msg string, fields ...zap.Field)   {}
+func (m *MockLogger) Warn(msg string, fields ...zap.Field)   {}
+func (m *MockLogger) Error(msg string, fields ...zap.Field)  {}
+func (m *MockLogger) Fatal(msg string, fields ...zap.Field)  {}
+func (m *MockLogger) With(fields ...zap.Field) logger.Logger { return m }
 
 type MockAuctionRepo struct {
 	CreateFunc  func(ctx context.Context, auction *domain.Auction) error
@@ -165,7 +176,7 @@ func TestCreateAuction(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			repo := tt.mockRepo()
 			prod := tt.mockProd()
-			svc := NewAuctionService(repo, prod)
+			svc := NewAuctionService(repo, prod, &MockLogger{})
 
 			_, err := svc.CreateAuction(context.Background(), tt.sellerID, tt.title, tt.description, tt.startPrice, tt.startTime, tt.endTime, tt.category, tt.imageURL)
 			if (err != nil) != tt.wantErr {
@@ -184,7 +195,7 @@ func TestGetAuction(t *testing.T) {
 			return nil, errors.New("not found")
 		},
 	}
-	svc := NewAuctionService(mockRepo, &MockEventProducer{})
+	svc := NewAuctionService(mockRepo, &MockEventProducer{}, &MockLogger{})
 
 	t.Run("Found", func(t *testing.T) {
 		auction, err := svc.GetAuction(context.Background(), "found")
@@ -224,7 +235,7 @@ func TestUpdateAuction(t *testing.T) {
 			return nil
 		},
 	}
-	svc := NewAuctionService(mockRepo, mockProd)
+	svc := NewAuctionService(mockRepo, mockProd, &MockLogger{})
 
 	t.Run("Success", func(t *testing.T) {
 		_, err := svc.UpdateAuction(context.Background(), "active", "New Title", "", "")
@@ -258,7 +269,7 @@ func TestCloseAuction(t *testing.T) {
 			return nil
 		},
 	}
-	svc := NewAuctionService(mockRepo, mockProd)
+	svc := NewAuctionService(mockRepo, mockProd, &MockLogger{})
 
 	err := svc.CloseAuction(context.Background(), "1")
 	if err != nil {
@@ -289,7 +300,7 @@ func TestValidateBid(t *testing.T) {
 			return nil, errors.New("not found")
 		},
 	}
-	svc := NewAuctionService(mockRepo, &MockEventProducer{})
+	svc := NewAuctionService(mockRepo, &MockEventProducer{}, &MockLogger{})
 
 	t.Run("Valid Bid", func(t *testing.T) {
 		valid, msg, err := svc.ValidateBid(context.Background(), "active", 150)
@@ -339,7 +350,7 @@ func TestUpdateCurrentPrice(t *testing.T) {
 			return nil
 		},
 	}
-	svc := NewAuctionService(mockRepo, mockProd)
+	svc := NewAuctionService(mockRepo, mockProd, &MockLogger{})
 
 	err := svc.UpdateCurrentPrice(context.Background(), "1", 200)
 	if err != nil {
@@ -356,7 +367,7 @@ func TestListAuctions(t *testing.T) {
 			return nil, 0, errors.New("invalid params")
 		},
 	}
-	svc := NewAuctionService(mockRepo, &MockEventProducer{})
+	svc := NewAuctionService(mockRepo, &MockEventProducer{}, &MockLogger{})
 
 	t.Run("Success", func(t *testing.T) {
 		auctions, count, err := svc.ListAuctions(context.Background(), 1, 10, "", "")

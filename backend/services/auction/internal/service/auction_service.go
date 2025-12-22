@@ -6,18 +6,22 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/temesgen-abebayehu/bidflow/backend/common/logger"
 	"github.com/temesgen-abebayehu/bidflow/backend/services/auction/internal/domain"
+	"go.uber.org/zap"
 )
 
 type AuctionService struct {
 	repo     domain.AuctionRepository
 	producer domain.EventProducer
+	log      logger.Logger
 }
 
-func NewAuctionService(repo domain.AuctionRepository, producer domain.EventProducer) *AuctionService {
+func NewAuctionService(repo domain.AuctionRepository, producer domain.EventProducer, log logger.Logger) *AuctionService {
 	return &AuctionService{
 		repo:     repo,
 		producer: producer,
+		log:      log,
 	}
 }
 
@@ -54,11 +58,7 @@ func (s *AuctionService) CreateAuction(ctx context.Context, sellerID, title, des
 	}
 
 	if err := s.producer.PublishAuctionCreated(ctx, auction); err != nil {
-		// Log error but don't fail the request? Or maybe we should?
-		// For now, let's just return the error or maybe log it if we had a logger here.
-		// Since I don't have a logger in the service struct yet, I'll just ignore it or return it?
-		// Usually we want to ensure consistency, so maybe outbox pattern or just log error.
-		// Given the context, I'll just proceed. Ideally we should log.
+		s.log.Error("failed to publish auction created event", zap.Error(err), zap.String("auction_id", auction.ID))
 	}
 
 	return auction, nil
@@ -103,7 +103,9 @@ func (s *AuctionService) UpdateAuction(ctx context.Context, id string, title, de
 		return nil, err
 	}
 
-	_ = s.producer.PublishAuctionUpdated(ctx, auction)
+	if err := s.producer.PublishAuctionUpdated(ctx, auction); err != nil {
+		s.log.Error("failed to publish auction updated event", zap.Error(err), zap.String("auction_id", auction.ID))
+	}
 
 	return auction, nil
 }
@@ -124,7 +126,9 @@ func (s *AuctionService) CloseAuction(ctx context.Context, id string) error {
 		return err
 	}
 
-	_ = s.producer.PublishAuctionClosed(ctx, auction, "") // WinnerID unknown here
+	if err := s.producer.PublishAuctionClosed(ctx, auction, ""); err != nil {
+		s.log.Error("failed to publish auction closed event", zap.Error(err), zap.String("auction_id", auction.ID))
+	}
 
 	return nil
 }

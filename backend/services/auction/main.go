@@ -53,7 +53,7 @@ func main() {
 	kafkaProducer := kafka.NewProducer(cfg.KafkaBrokers, log)
 	eventProducer := event.NewKafkaEventProducer(kafkaProducer)
 
-	svc := service.NewAuctionService(repo, eventProducer)
+	svc := service.NewAuctionService(repo, eventProducer, log)
 
 	grpcHandler := handler.NewGrpcHandler(svc)
 	httpHandler := handler.NewHttpHandler(svc)
