@@ -24,11 +24,17 @@ jobs:
         run: go work init ./common ./services/auth
         working-directory: ./backend
 
-      - name: Run Linter
+      - name: Run Linter (Common)
         uses: golangci/golangci-lint-action@v6
         with:
           version: latest
-          working-directory: ./backend
+          working-directory: ./backend/common
+
+      - name: Run Linter (Auth)
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
+          working-directory: ./backend/services/auth
 
       - name: Run Unit Tests
         run: go test -v ./...
