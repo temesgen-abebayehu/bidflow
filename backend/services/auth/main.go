@@ -38,5 +38,7 @@ func main() {
 	r := SetupRouter(authHandler, userHandler, tm)
 
 	log.Printf("Auth Service starting on port %s", cfg.HTTPPort)
-	r.Run(":" + cfg.HTTPPort)
+	if err := r.Run(":" + cfg.HTTPPort); err != nil {
+		log.Fatalf("Failed to run server: %v", err)
+	}
 }

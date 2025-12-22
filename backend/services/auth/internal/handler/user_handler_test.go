@@ -86,7 +86,8 @@ func TestGetProfile(t *testing.T) {
 
 		assert.Equal(t, http.StatusOK, w.Code)
 		var resp auth.UserDTO
-		json.Unmarshal(w.Body.Bytes(), &resp)
+		err := json.Unmarshal(w.Body.Bytes(), &resp)
+		assert.NoError(t, err)
 		assert.Equal(t, "user123", resp.ID)
 	})
 
