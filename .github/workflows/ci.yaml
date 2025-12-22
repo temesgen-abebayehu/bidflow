@@ -21,7 +21,7 @@ jobs:
           cache: true
 
       - name: Initialize Workspace
-        run: go work init ./common ./services/auth
+        run: go work init ./common ./services/auth ./services/auction ./proto
         working-directory: ./backend
 
       - name: Run Linter (Common)
@@ -36,6 +36,12 @@ jobs:
           version: latest
           working-directory: ./backend/services/auth
 
+      - name: Run Linter (Auction)
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
+          working-directory: ./backend/services/auction
+
       - name: Run Unit Tests (Common)
         run: go test -v ./...
         working-directory: ./backend/common
@@ -43,6 +49,10 @@ jobs:
       - name: Run Unit Tests (Auth)
         run: go test -v ./...
         working-directory: ./backend/services/auth
+
+      - name: Run Unit Tests (Auction)
+        run: go test -v ./...
+        working-directory: ./backend/services/auction
 
   test-frontend:
     name: Frontend Check

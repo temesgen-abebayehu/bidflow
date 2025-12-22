@@ -43,3 +43,19 @@ type AuctionRepository interface {
 	Delete(ctx context.Context, id string) error
 	List(ctx context.Context, page, limit int, status AuctionStatus, category string) ([]Auction, int64, error)
 }
+
+type EventProducer interface {
+	PublishAuctionCreated(ctx context.Context, auction *Auction) error
+	PublishAuctionUpdated(ctx context.Context, auction *Auction) error
+	PublishAuctionClosed(ctx context.Context, auction *Auction, winnerID string) error
+}
+
+type AuctionService interface {
+	CreateAuction(ctx context.Context, sellerID, title, description string, startPrice float64, startTime, endTime time.Time, category, imageURL string) (*Auction, error)
+	GetAuction(ctx context.Context, id string) (*Auction, error)
+	ListAuctions(ctx context.Context, page, limit int, status string, category string) ([]Auction, int64, error)
+	UpdateAuction(ctx context.Context, id string, title, description, imageURL string) (*Auction, error)
+	CloseAuction(ctx context.Context, id string) error
+	ValidateBid(ctx context.Context, auctionID string, amount float64) (bool, string, error)
+	UpdateCurrentPrice(ctx context.Context, auctionID string, amount float64) error
+}

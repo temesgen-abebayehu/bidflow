@@ -6,14 +6,14 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/temesgen-abebayehu/bidflow/backend/services/auction/internal/service"
+	"github.com/temesgen-abebayehu/bidflow/backend/services/auction/internal/domain"
 )
 
 type HttpHandler struct {
-	service *service.AuctionService
+	service domain.AuctionService
 }
 
-func NewHttpHandler(service *service.AuctionService) *HttpHandler {
+func NewHttpHandler(service domain.AuctionService) *HttpHandler {
 	return &HttpHandler{service: service}
 }
 

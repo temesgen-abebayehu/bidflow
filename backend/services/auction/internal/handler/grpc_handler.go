@@ -5,17 +5,17 @@ import (
 	"time"
 
 	pb "github.com/temesgen-abebayehu/bidflow/backend/proto/pb"
-	"github.com/temesgen-abebayehu/bidflow/backend/services/auction/internal/service"
+	"github.com/temesgen-abebayehu/bidflow/backend/services/auction/internal/domain"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
 type GrpcHandler struct {
 	pb.UnimplementedAuctionServiceServer
-	service *service.AuctionService
+	service domain.AuctionService
 }
 
-func NewGrpcHandler(service *service.AuctionService) *GrpcHandler {
+func NewGrpcHandler(service domain.AuctionService) *GrpcHandler {
 	return &GrpcHandler{service: service}
 }
 

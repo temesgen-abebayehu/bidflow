@@ -11,8 +11,10 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/temesgen-abebayehu/bidflow/backend/common/auth"
 	"github.com/temesgen-abebayehu/bidflow/backend/common/config"
+	"github.com/temesgen-abebayehu/bidflow/backend/common/kafka"
 	"github.com/temesgen-abebayehu/bidflow/backend/common/logger"
 	pb "github.com/temesgen-abebayehu/bidflow/backend/proto/pb"
+	"github.com/temesgen-abebayehu/bidflow/backend/services/auction/internal/event"
 	"github.com/temesgen-abebayehu/bidflow/backend/services/auction/internal/handler"
 	"github.com/temesgen-abebayehu/bidflow/backend/services/auction/internal/repository"
 	"github.com/temesgen-abebayehu/bidflow/backend/services/auction/internal/service"
@@ -46,7 +48,12 @@ func main() {
 
 	// Setup layers
 	repo := repository.NewPostgresRepo(db)
-	svc := service.NewAuctionService(repo)
+
+	// Setup Kafka
+	kafkaProducer := kafka.NewProducer(cfg.KafkaBrokers, log)
+	eventProducer := event.NewKafkaEventProducer(kafkaProducer)
+
+	svc := service.NewAuctionService(repo, eventProducer)
 
 	grpcHandler := handler.NewGrpcHandler(svc)
 	httpHandler := handler.NewHttpHandler(svc)
