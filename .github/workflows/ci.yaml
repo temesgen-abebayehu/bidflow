@@ -1,0 +1,44 @@
+name: CI - Quality Check
+
+on:
+  push:
+    branches: [ main, dev, master ]
+  pull_request:
+    branches: [ main, dev, master ]
+
+jobs:
+  test-backend:
+    name: Backend Lint & Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+          cache: true
+
+      - name: Initialize Workspace
+        run: go work init ./common ./services/auth ./services/auction ./services/bidding ./services/notification
+        working-directory: ./backend
+
+      - name: Run Linter
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: latest
+          working-directory: ./backend
+
+      - name: Run Unit Tests
+        run: go test -v ./...
+        working-directory: ./backend
+
+  test-frontend:
+    name: Frontend Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      # Note: Add Node.js/React tests here once you start the frontend
+      - run: echo "Frontend tests skipped until frontend folder is populated"
