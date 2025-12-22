@@ -24,20 +24,23 @@ jobs:
         run: go work init ./common ./services/auth ./services/auction ./proto
         working-directory: ./backend
 
-      - name: Install golangci-lint
-        run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
-
       - name: Run Linter (Common)
-        run: golangci-lint run
-        working-directory: ./backend/common
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: v1.64.5
+          working-directory: ./backend/common
 
       - name: Run Linter (Auth)
-        run: golangci-lint run
-        working-directory: ./backend/services/auth
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: v1.64.5
+          working-directory: ./backend/services/auth
 
       - name: Run Linter (Auction)
-        run: golangci-lint run
-        working-directory: ./backend/services/auction
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: v1.64.5
+          working-directory: ./backend/services/auction
 
       - name: Run Unit Tests (Common)
         run: go test -v ./...
