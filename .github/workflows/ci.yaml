@@ -63,16 +63,16 @@ jobs:
         working-directory: ./backend/common
 
       - name: Run Unit Tests (Auth)
-      - name: Run Unit Tests (Bidding)
-        run: go test -v ./...
-        working-directory: ./backend/services/bidding
-
         run: go test -v ./...
         working-directory: ./backend/services/auth
 
       - name: Run Unit Tests (Auction)
         run: go test -v ./...
         working-directory: ./backend/services/auction
+
+      - name: Run Unit Tests (Bidding)
+        run: go test -v ./...
+        working-directory: ./backend/services/bidding
 
   test-frontend:
     name: Frontend Check
