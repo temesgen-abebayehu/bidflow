@@ -23,10 +23,11 @@ jobs:
             backend/common/go.sum
             backend/services/auth/go.sum
             backend/services/auction/go.sum
+            backend/services/bidding/go.sum
             backend/proto/go.sum
 
       - name: Initialize Workspace
-        run: go work init ./common ./services/auth ./services/auction ./proto
+        run: go work init ./common ./services/auth ./services/auction ./services/bidding ./proto
         working-directory: ./backend
 
       - name: Run Linter (Common)
@@ -50,11 +51,22 @@ jobs:
           working-directory: ./backend/services/auction
           args: --timeout=5m
 
+      - name: Run Linter (Bidding)
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: v1.64.5
+          working-directory: ./backend/services/bidding
+          args: --timeout=5m
+
       - name: Run Unit Tests (Common)
         run: go test -v ./...
         working-directory: ./backend/common
 
       - name: Run Unit Tests (Auth)
+      - name: Run Unit Tests (Bidding)
+        run: go test -v ./...
+        working-directory: ./backend/services/bidding
+
         run: go test -v ./...
         working-directory: ./backend/services/auth
 
