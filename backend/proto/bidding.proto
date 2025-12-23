@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package proto.bidding;
+
+option go_package = "github.com/temesgen-abebayehu/bidflow/backend/proto/pb";
+
+import "google/protobuf/timestamp.proto";
+
+// BiddingService manages bid placements and retrievals within auctions.
+service BiddingService {
+    // Places a new bid in a specified auction.
+    rpc PlaceBid(PlaceBidRequest) returns (PlaceBidResponse);
+    // Retrieves all bids associated with a specific auction.
+    rpc GetBidsByAuction(GetBidsByAuctionRequest) returns (GetBidsByAuctionResponse);
+}
+
+message PlaceBidRequest {
+    string auction_id = 1;
+    string bidder_id = 2;
+    double amount = 3;
+}
+
+message PlaceBidResponse {
+    Bid bid = 1;
+}
+
+message GetBidsByAuctionRequest {
+    string auction_id = 1;
+}
+
+message GetBidsByAuctionResponse {
+    repeated Bid bids = 1;
+}
+
+message Bid {
+    string id = 1;
+    string auction_id = 2;
+    string bidder_id = 3;
+    double amount = 4;
+    google.protobuf.Timestamp timestamp = 5;
+}

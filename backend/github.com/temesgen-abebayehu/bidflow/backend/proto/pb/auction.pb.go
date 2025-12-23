@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v6.33.2
-// source: auction.proto
+// source: proto/auction.proto
 
 package pb
 
@@ -40,7 +40,7 @@ type Auction struct {
 
 func (x *Auction) Reset() {
 	*x = Auction{}
-	mi := &file_auction_proto_msgTypes[0]
+	mi := &file_proto_auction_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -52,7 +52,7 @@ func (x *Auction) String() string {
 func (*Auction) ProtoMessage() {}
 
 func (x *Auction) ProtoReflect() protoreflect.Message {
-	mi := &file_auction_proto_msgTypes[0]
+	mi := &file_proto_auction_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -65,7 +65,7 @@ func (x *Auction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Auction.ProtoReflect.Descriptor instead.
 func (*Auction) Descriptor() ([]byte, []int) {
-	return file_auction_proto_rawDescGZIP(), []int{0}
+	return file_proto_auction_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Auction) GetId() string {
@@ -161,7 +161,7 @@ type CreateAuctionRequest struct {
 
 func (x *CreateAuctionRequest) Reset() {
 	*x = CreateAuctionRequest{}
-	mi := &file_auction_proto_msgTypes[1]
+	mi := &file_proto_auction_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -173,7 +173,7 @@ func (x *CreateAuctionRequest) String() string {
 func (*CreateAuctionRequest) ProtoMessage() {}
 
 func (x *CreateAuctionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_auction_proto_msgTypes[1]
+	mi := &file_proto_auction_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -186,7 +186,7 @@ func (x *CreateAuctionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateAuctionRequest.ProtoReflect.Descriptor instead.
 func (*CreateAuctionRequest) Descriptor() ([]byte, []int) {
-	return file_auction_proto_rawDescGZIP(), []int{1}
+	return file_proto_auction_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *CreateAuctionRequest) GetSellerId() string {
@@ -254,7 +254,7 @@ type CreateAuctionResponse struct {
 
 func (x *CreateAuctionResponse) Reset() {
 	*x = CreateAuctionResponse{}
-	mi := &file_auction_proto_msgTypes[2]
+	mi := &file_proto_auction_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -266,7 +266,7 @@ func (x *CreateAuctionResponse) String() string {
 func (*CreateAuctionResponse) ProtoMessage() {}
 
 func (x *CreateAuctionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_auction_proto_msgTypes[2]
+	mi := &file_proto_auction_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -279,7 +279,7 @@ func (x *CreateAuctionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateAuctionResponse.ProtoReflect.Descriptor instead.
 func (*CreateAuctionResponse) Descriptor() ([]byte, []int) {
-	return file_auction_proto_rawDescGZIP(), []int{2}
+	return file_proto_auction_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *CreateAuctionResponse) GetAuction() *Auction {
@@ -298,7 +298,7 @@ type GetAuctionRequest struct {
 
 func (x *GetAuctionRequest) Reset() {
 	*x = GetAuctionRequest{}
-	mi := &file_auction_proto_msgTypes[3]
+	mi := &file_proto_auction_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -310,7 +310,7 @@ func (x *GetAuctionRequest) String() string {
 func (*GetAuctionRequest) ProtoMessage() {}
 
 func (x *GetAuctionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_auction_proto_msgTypes[3]
+	mi := &file_proto_auction_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -323,7 +323,7 @@ func (x *GetAuctionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAuctionRequest.ProtoReflect.Descriptor instead.
 func (*GetAuctionRequest) Descriptor() ([]byte, []int) {
-	return file_auction_proto_rawDescGZIP(), []int{3}
+	return file_proto_auction_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *GetAuctionRequest) GetId() string {
@@ -342,7 +342,7 @@ type GetAuctionResponse struct {
 
 func (x *GetAuctionResponse) Reset() {
 	*x = GetAuctionResponse{}
-	mi := &file_auction_proto_msgTypes[4]
+	mi := &file_proto_auction_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -354,7 +354,7 @@ func (x *GetAuctionResponse) String() string {
 func (*GetAuctionResponse) ProtoMessage() {}
 
 func (x *GetAuctionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_auction_proto_msgTypes[4]
+	mi := &file_proto_auction_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -367,7 +367,7 @@ func (x *GetAuctionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAuctionResponse.ProtoReflect.Descriptor instead.
 func (*GetAuctionResponse) Descriptor() ([]byte, []int) {
-	return file_auction_proto_rawDescGZIP(), []int{4}
+	return file_proto_auction_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetAuctionResponse) GetAuction() *Auction {
@@ -390,7 +390,7 @@ type ListAuctionsRequest struct {
 
 func (x *ListAuctionsRequest) Reset() {
 	*x = ListAuctionsRequest{}
-	mi := &file_auction_proto_msgTypes[5]
+	mi := &file_proto_auction_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -402,7 +402,7 @@ func (x *ListAuctionsRequest) String() string {
 func (*ListAuctionsRequest) ProtoMessage() {}
 
 func (x *ListAuctionsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_auction_proto_msgTypes[5]
+	mi := &file_proto_auction_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -415,7 +415,7 @@ func (x *ListAuctionsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAuctionsRequest.ProtoReflect.Descriptor instead.
 func (*ListAuctionsRequest) Descriptor() ([]byte, []int) {
-	return file_auction_proto_rawDescGZIP(), []int{5}
+	return file_proto_auction_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *ListAuctionsRequest) GetPage() int32 {
@@ -463,7 +463,7 @@ type ListAuctionsResponse struct {
 
 func (x *ListAuctionsResponse) Reset() {
 	*x = ListAuctionsResponse{}
-	mi := &file_auction_proto_msgTypes[6]
+	mi := &file_proto_auction_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -475,7 +475,7 @@ func (x *ListAuctionsResponse) String() string {
 func (*ListAuctionsResponse) ProtoMessage() {}
 
 func (x *ListAuctionsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_auction_proto_msgTypes[6]
+	mi := &file_proto_auction_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -488,7 +488,7 @@ func (x *ListAuctionsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAuctionsResponse.ProtoReflect.Descriptor instead.
 func (*ListAuctionsResponse) Descriptor() ([]byte, []int) {
-	return file_auction_proto_rawDescGZIP(), []int{6}
+	return file_proto_auction_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ListAuctionsResponse) GetAuctions() []*Auction {
@@ -517,7 +517,7 @@ type UpdateAuctionRequest struct {
 
 func (x *UpdateAuctionRequest) Reset() {
 	*x = UpdateAuctionRequest{}
-	mi := &file_auction_proto_msgTypes[7]
+	mi := &file_proto_auction_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -529,7 +529,7 @@ func (x *UpdateAuctionRequest) String() string {
 func (*UpdateAuctionRequest) ProtoMessage() {}
 
 func (x *UpdateAuctionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_auction_proto_msgTypes[7]
+	mi := &file_proto_auction_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -542,7 +542,7 @@ func (x *UpdateAuctionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateAuctionRequest.ProtoReflect.Descriptor instead.
 func (*UpdateAuctionRequest) Descriptor() ([]byte, []int) {
-	return file_auction_proto_rawDescGZIP(), []int{7}
+	return file_proto_auction_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *UpdateAuctionRequest) GetId() string {
@@ -582,7 +582,7 @@ type UpdateAuctionResponse struct {
 
 func (x *UpdateAuctionResponse) Reset() {
 	*x = UpdateAuctionResponse{}
-	mi := &file_auction_proto_msgTypes[8]
+	mi := &file_proto_auction_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -594,7 +594,7 @@ func (x *UpdateAuctionResponse) String() string {
 func (*UpdateAuctionResponse) ProtoMessage() {}
 
 func (x *UpdateAuctionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_auction_proto_msgTypes[8]
+	mi := &file_proto_auction_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -607,7 +607,7 @@ func (x *UpdateAuctionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateAuctionResponse.ProtoReflect.Descriptor instead.
 func (*UpdateAuctionResponse) Descriptor() ([]byte, []int) {
-	return file_auction_proto_rawDescGZIP(), []int{8}
+	return file_proto_auction_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *UpdateAuctionResponse) GetAuction() *Auction {
@@ -626,7 +626,7 @@ type CloseAuctionRequest struct {
 
 func (x *CloseAuctionRequest) Reset() {
 	*x = CloseAuctionRequest{}
-	mi := &file_auction_proto_msgTypes[9]
+	mi := &file_proto_auction_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -638,7 +638,7 @@ func (x *CloseAuctionRequest) String() string {
 func (*CloseAuctionRequest) ProtoMessage() {}
 
 func (x *CloseAuctionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_auction_proto_msgTypes[9]
+	mi := &file_proto_auction_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -651,7 +651,7 @@ func (x *CloseAuctionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CloseAuctionRequest.ProtoReflect.Descriptor instead.
 func (*CloseAuctionRequest) Descriptor() ([]byte, []int) {
-	return file_auction_proto_rawDescGZIP(), []int{9}
+	return file_proto_auction_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *CloseAuctionRequest) GetId() string {
@@ -671,7 +671,7 @@ type CloseAuctionResponse struct {
 
 func (x *CloseAuctionResponse) Reset() {
 	*x = CloseAuctionResponse{}
-	mi := &file_auction_proto_msgTypes[10]
+	mi := &file_proto_auction_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -683,7 +683,7 @@ func (x *CloseAuctionResponse) String() string {
 func (*CloseAuctionResponse) ProtoMessage() {}
 
 func (x *CloseAuctionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_auction_proto_msgTypes[10]
+	mi := &file_proto_auction_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -696,7 +696,7 @@ func (x *CloseAuctionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CloseAuctionResponse.ProtoReflect.Descriptor instead.
 func (*CloseAuctionResponse) Descriptor() ([]byte, []int) {
-	return file_auction_proto_rawDescGZIP(), []int{10}
+	return file_proto_auction_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *CloseAuctionResponse) GetSuccess() bool {
@@ -723,7 +723,7 @@ type UpdateAuctionPriceRequest struct {
 
 func (x *UpdateAuctionPriceRequest) Reset() {
 	*x = UpdateAuctionPriceRequest{}
-	mi := &file_auction_proto_msgTypes[11]
+	mi := &file_proto_auction_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -735,7 +735,7 @@ func (x *UpdateAuctionPriceRequest) String() string {
 func (*UpdateAuctionPriceRequest) ProtoMessage() {}
 
 func (x *UpdateAuctionPriceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_auction_proto_msgTypes[11]
+	mi := &file_proto_auction_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -748,7 +748,7 @@ func (x *UpdateAuctionPriceRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateAuctionPriceRequest.ProtoReflect.Descriptor instead.
 func (*UpdateAuctionPriceRequest) Descriptor() ([]byte, []int) {
-	return file_auction_proto_rawDescGZIP(), []int{11}
+	return file_proto_auction_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *UpdateAuctionPriceRequest) GetAuctionId() string {
@@ -775,7 +775,7 @@ type UpdateAuctionPriceResponse struct {
 
 func (x *UpdateAuctionPriceResponse) Reset() {
 	*x = UpdateAuctionPriceResponse{}
-	mi := &file_auction_proto_msgTypes[12]
+	mi := &file_proto_auction_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -787,7 +787,7 @@ func (x *UpdateAuctionPriceResponse) String() string {
 func (*UpdateAuctionPriceResponse) ProtoMessage() {}
 
 func (x *UpdateAuctionPriceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_auction_proto_msgTypes[12]
+	mi := &file_proto_auction_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -800,7 +800,7 @@ func (x *UpdateAuctionPriceResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateAuctionPriceResponse.ProtoReflect.Descriptor instead.
 func (*UpdateAuctionPriceResponse) Descriptor() ([]byte, []int) {
-	return file_auction_proto_rawDescGZIP(), []int{12}
+	return file_proto_auction_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *UpdateAuctionPriceResponse) GetSuccess() bool {
@@ -829,7 +829,7 @@ type BidRequest struct {
 
 func (x *BidRequest) Reset() {
 	*x = BidRequest{}
-	mi := &file_auction_proto_msgTypes[13]
+	mi := &file_proto_auction_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -841,7 +841,7 @@ func (x *BidRequest) String() string {
 func (*BidRequest) ProtoMessage() {}
 
 func (x *BidRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_auction_proto_msgTypes[13]
+	mi := &file_proto_auction_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -854,7 +854,7 @@ func (x *BidRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BidRequest.ProtoReflect.Descriptor instead.
 func (*BidRequest) Descriptor() ([]byte, []int) {
-	return file_auction_proto_rawDescGZIP(), []int{13}
+	return file_proto_auction_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *BidRequest) GetAuctionId() string {
@@ -889,7 +889,7 @@ type BidResponse struct {
 
 func (x *BidResponse) Reset() {
 	*x = BidResponse{}
-	mi := &file_auction_proto_msgTypes[14]
+	mi := &file_proto_auction_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -901,7 +901,7 @@ func (x *BidResponse) String() string {
 func (*BidResponse) ProtoMessage() {}
 
 func (x *BidResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_auction_proto_msgTypes[14]
+	mi := &file_proto_auction_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -914,7 +914,7 @@ func (x *BidResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BidResponse.ProtoReflect.Descriptor instead.
 func (*BidResponse) Descriptor() ([]byte, []int) {
-	return file_auction_proto_rawDescGZIP(), []int{14}
+	return file_proto_auction_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *BidResponse) GetIsValid() bool {
@@ -947,7 +947,7 @@ type StatusRequest struct {
 
 func (x *StatusRequest) Reset() {
 	*x = StatusRequest{}
-	mi := &file_auction_proto_msgTypes[15]
+	mi := &file_proto_auction_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -959,7 +959,7 @@ func (x *StatusRequest) String() string {
 func (*StatusRequest) ProtoMessage() {}
 
 func (x *StatusRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_auction_proto_msgTypes[15]
+	mi := &file_proto_auction_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -972,7 +972,7 @@ func (x *StatusRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StatusRequest.ProtoReflect.Descriptor instead.
 func (*StatusRequest) Descriptor() ([]byte, []int) {
-	return file_auction_proto_rawDescGZIP(), []int{15}
+	return file_proto_auction_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *StatusRequest) GetAuctionId() string {
@@ -995,7 +995,7 @@ type StatusResponse struct {
 
 func (x *StatusResponse) Reset() {
 	*x = StatusResponse{}
-	mi := &file_auction_proto_msgTypes[16]
+	mi := &file_proto_auction_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1007,7 +1007,7 @@ func (x *StatusResponse) String() string {
 func (*StatusResponse) ProtoMessage() {}
 
 func (x *StatusResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_auction_proto_msgTypes[16]
+	mi := &file_proto_auction_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1020,7 +1020,7 @@ func (x *StatusResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StatusResponse.ProtoReflect.Descriptor instead.
 func (*StatusResponse) Descriptor() ([]byte, []int) {
-	return file_auction_proto_rawDescGZIP(), []int{16}
+	return file_proto_auction_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *StatusResponse) GetAuctionId() string {
@@ -1058,11 +1058,11 @@ func (x *StatusResponse) GetEndTimeUnix() int64 {
 	return 0
 }
 
-var File_auction_proto protoreflect.FileDescriptor
+var File_proto_auction_proto protoreflect.FileDescriptor
 
-const file_auction_proto_rawDesc = "" +
+const file_proto_auction_proto_rawDesc = "" +
 	"\n" +
-	"\rauction.proto\x12\rproto.auction\"\xbf\x02\n" +
+	"\x13proto/auction.proto\x12\rproto.auction\"\xbf\x02\n" +
 	"\aAuction\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tseller_id\x18\x02 \x01(\tR\bsellerId\x12\x14\n" +
@@ -1156,19 +1156,19 @@ const file_auction_proto_rawDesc = "" +
 	"\x12UpdateAuctionPrice\x12(.proto.auction.UpdateAuctionPriceRequest\x1a).proto.auction.UpdateAuctionPriceResponseB8Z6github.com/temesgen-abebayehu/bidflow/backend/proto/pbb\x06proto3"
 
 var (
-	file_auction_proto_rawDescOnce sync.Once
-	file_auction_proto_rawDescData []byte
+	file_proto_auction_proto_rawDescOnce sync.Once
+	file_proto_auction_proto_rawDescData []byte
 )
 
-func file_auction_proto_rawDescGZIP() []byte {
-	file_auction_proto_rawDescOnce.Do(func() {
-		file_auction_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_auction_proto_rawDesc), len(file_auction_proto_rawDesc)))
+func file_proto_auction_proto_rawDescGZIP() []byte {
+	file_proto_auction_proto_rawDescOnce.Do(func() {
+		file_proto_auction_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_auction_proto_rawDesc), len(file_proto_auction_proto_rawDesc)))
 	})
-	return file_auction_proto_rawDescData
+	return file_proto_auction_proto_rawDescData
 }
 
-var file_auction_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
-var file_auction_proto_goTypes = []any{
+var file_proto_auction_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_proto_auction_proto_goTypes = []any{
 	(*Auction)(nil),                    // 0: proto.auction.Auction
 	(*CreateAuctionRequest)(nil),       // 1: proto.auction.CreateAuctionRequest
 	(*CreateAuctionResponse)(nil),      // 2: proto.auction.CreateAuctionResponse
@@ -1187,7 +1187,7 @@ var file_auction_proto_goTypes = []any{
 	(*StatusRequest)(nil),              // 15: proto.auction.StatusRequest
 	(*StatusResponse)(nil),             // 16: proto.auction.StatusResponse
 }
-var file_auction_proto_depIdxs = []int32{
+var file_proto_auction_proto_depIdxs = []int32{
 	0,  // 0: proto.auction.CreateAuctionResponse.auction:type_name -> proto.auction.Auction
 	0,  // 1: proto.auction.GetAuctionResponse.auction:type_name -> proto.auction.Auction
 	0,  // 2: proto.auction.ListAuctionsResponse.auctions:type_name -> proto.auction.Auction
@@ -1215,26 +1215,26 @@ var file_auction_proto_depIdxs = []int32{
 	0,  // [0:4] is the sub-list for field type_name
 }
 
-func init() { file_auction_proto_init() }
-func file_auction_proto_init() {
-	if File_auction_proto != nil {
+func init() { file_proto_auction_proto_init() }
+func file_proto_auction_proto_init() {
+	if File_proto_auction_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_auction_proto_rawDesc), len(file_auction_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_auction_proto_rawDesc), len(file_proto_auction_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   17,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_auction_proto_goTypes,
-		DependencyIndexes: file_auction_proto_depIdxs,
-		MessageInfos:      file_auction_proto_msgTypes,
+		GoTypes:           file_proto_auction_proto_goTypes,
+		DependencyIndexes: file_proto_auction_proto_depIdxs,
+		MessageInfos:      file_proto_auction_proto_msgTypes,
 	}.Build()
-	File_auction_proto = out.File
-	file_auction_proto_goTypes = nil
-	file_auction_proto_depIdxs = nil
+	File_proto_auction_proto = out.File
+	file_proto_auction_proto_goTypes = nil
+	file_proto_auction_proto_depIdxs = nil
 }

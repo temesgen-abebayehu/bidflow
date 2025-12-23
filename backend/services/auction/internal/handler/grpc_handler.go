@@ -172,3 +172,11 @@ func (h *GrpcHandler) GetAuctionStatus(ctx context.Context, req *pb.StatusReques
 		EndTimeUnix:  auction.EndTime.Unix(),
 	}, nil
 }
+
+func (h *GrpcHandler) UpdateAuctionPrice(ctx context.Context, req *pb.UpdateAuctionPriceRequest) (*pb.UpdateAuctionPriceResponse, error) {
+	err := h.service.UpdateCurrentPrice(ctx, req.AuctionId, req.Amount)
+	if err != nil {
+		return &pb.UpdateAuctionPriceResponse{Success: false, Message: err.Error()}, nil
+	}
+	return &pb.UpdateAuctionPriceResponse{Success: true, Message: "Price updated successfully"}, nil
+}

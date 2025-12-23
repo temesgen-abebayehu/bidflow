@@ -69,6 +69,12 @@ service AuctionService {
      * @return CloseAuctionResponse The final state of the closed auction.
      */
     rpc CloseAuction(CloseAuctionRequest) returns (CloseAuctionResponse);
+
+    /**
+     * Updates the current price of an auction.
+     * This is typically called by the Bidding Service after a successful bid.
+     */
+    rpc UpdateAuctionPrice(UpdateAuctionPriceRequest) returns (UpdateAuctionPriceResponse);
 }
 
 message Auction {
@@ -137,6 +143,16 @@ message CloseAuctionRequest {
 }
 
 message CloseAuctionResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message UpdateAuctionPriceRequest {
+    string auction_id = 1;
+    double amount = 2;
+}
+
+message UpdateAuctionPriceResponse {
     bool success = 1;
     string message = 2;
 }
