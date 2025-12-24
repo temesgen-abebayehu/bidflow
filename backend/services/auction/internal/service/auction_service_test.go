@@ -19,6 +19,7 @@ func (m *MockLogger) Warn(msg string, fields ...zap.Field)   {}
 func (m *MockLogger) Error(msg string, fields ...zap.Field)  {}
 func (m *MockLogger) Fatal(msg string, fields ...zap.Field)  {}
 func (m *MockLogger) With(fields ...zap.Field) logger.Logger { return m }
+func (m *MockLogger) Sync() error                            { return nil }
 
 type MockAuctionRepo struct {
 	CreateFunc  func(ctx context.Context, auction *domain.Auction) error
