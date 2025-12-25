@@ -18,17 +18,29 @@ WORKDIR /app/services/notification
 RUN go mod download
 
 # Build the application
-RUN CGO_ENABLED=0 GOOS=linux go build -o notification-service .
+# -ldflags="-w -s" reduces binary size
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o notification-service .
 
 # Final stage
 FROM alpine:latest
 
 WORKDIR /app
 
+# Install certificates and timezone data
+RUN apk --no-cache add ca-certificates tzdata
+
+# Create a non-root user
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
 COPY --from=builder /app/services/notification/notification-service .
-# Copy config if needed, or rely on env vars
-# COPY --from=builder /app/services/notification/config ./config
+
+# Change ownership
+RUN chown -R appuser:appgroup /app
+
+# Switch to non-root user
+USER appuser
 
 EXPOSE 8084
 
 CMD ["./notification-service"]
+
