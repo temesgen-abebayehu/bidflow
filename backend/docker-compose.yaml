@@ -1,0 +1,153 @@
+version: '3.8'
+
+services:
+  # ---------------------------------------------------------------------------
+  # INFRASTRUCTURE
+  # ---------------------------------------------------------------------------
+  kafka:
+    image: bitnami/kafka:3.9
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      # KRaft settings
+      - KAFKA_CFG_NODE_ID=1
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka:9093
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+
+      # Listeners
+      # PLAINTEXT: Internal communication (kafka:29092)
+      # EXTERNAL: Host communication (localhost:9092)
+      # CONTROLLER: Controller communication (kafka:9093)
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:29092,CONTROLLER://:9093,EXTERNAL://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:29092,EXTERNAL://localhost:9092
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+    volumes:
+      - kafka_data:/bitnami/kafka
+    networks:
+      - bidflow-net
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # Mount initialization scripts if you have them combined, or separate DBs
+      - ./infra/sql:/docker-entrypoint-initdb.d
+    networks:
+      - bidflow-net
+
+  # ---------------------------------------------------------------------------
+  # MICROSERVICES
+  # ---------------------------------------------------------------------------
+  auth-service:
+    build:
+      context: .
+      dockerfile: services/auth/Dockerfile
+    container_name: auth-service
+    ports:
+      - "${AUTH_HTTP_PORT}:8080"
+    environment:
+      - APP_ENV=${APP_ENV}
+      - HTTP_PORT=8080
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_NAME=${AUTH_DB_NAME}
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      - postgres
+    networks:
+      - bidflow-net
+
+  auction-service:
+    build:
+      context: .
+      dockerfile: services/auction/Dockerfile
+    container_name: auction-service
+    ports:
+      - "${AUCTION_HTTP_PORT}:8081"
+      - "${AUCTION_GRPC_PORT}:50051"
+    environment:
+      - APP_ENV=${APP_ENV}
+      - HTTP_PORT=8081
+      - GRPC_PORT=50051
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_NAME=${AUCTION_DB_NAME}
+      - KAFKA_BROKERS=kafka:29092
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      - postgres
+      - kafka
+    networks:
+      - bidflow-net
+
+  bidding-service:
+    build:
+      context: .
+      dockerfile: services/bidding/Dockerfile
+    container_name: bidding-service
+    ports:
+      - "${BIDDING_HTTP_PORT}:8082"
+      - "${BIDDING_GRPC_PORT}:50051"
+    environment:
+      - APP_ENV=${APP_ENV}
+      - HTTP_PORT=8082
+      - GRPC_PORT=50051
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_NAME=${BIDDING_DB_NAME}
+      - KAFKA_BROKERS=kafka:29092
+      - AUCTION_SERVICE_URL=auction-service:50051
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      - postgres
+      - kafka
+      - auction-service
+    networks:
+      - bidflow-net
+
+  notification-service:
+    build:
+      context: .
+      dockerfile: services/notification/Dockerfile
+    container_name: notification-service
+    ports:
+      - "${NOTIFICATION_HTTP_PORT}:8084"
+    environment:
+      - APP_ENV=${APP_ENV}
+      - HTTP_PORT=8084
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_NAME=${NOTIFICATION_DB_NAME}
+      - KAFKA_BROKERS=kafka:29092
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      - postgres
+      - kafka
+    networks:
+      - bidflow-net
+
+networks:
+  bidflow-net:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  kafka_data:
