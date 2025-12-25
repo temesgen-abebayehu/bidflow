@@ -64,7 +64,7 @@ func TestHub_Register(t *testing.T) {
 
 	msg := "hello"
 	hub.BroadcastToUser("user-1", msg)
-	
+
 	received := <-client.send
 	assert.Equal(t, msg, received)
 }
@@ -81,7 +81,7 @@ func TestHub_Unregister(t *testing.T) {
 	}
 
 	hub.register <- client
-	
+
 	// Wait for registration
 	for i := 0; i < 10; i++ {
 		hub.mu.RLock()
@@ -94,7 +94,7 @@ func TestHub_Unregister(t *testing.T) {
 
 	// Unregister
 	hub.unregister <- client
-	
+
 	// Verify channel is closed
 	// We need to wait for the unregister to process
 	// The hub closes the channel.

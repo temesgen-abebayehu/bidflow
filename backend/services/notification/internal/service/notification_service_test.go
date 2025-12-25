@@ -120,7 +120,7 @@ func (s *NotificationServiceTestSuite) TestSendNotification_Success() {
 	err := s.service.SendNotification(context.Background(), notification)
 
 	s.NoError(err)
-	s.NotEmpty(notification.ID)        // ID should be generated
+	s.NotEmpty(notification.ID)              // ID should be generated
 	s.False(notification.CreatedAt.IsZero()) // CreatedAt should be set
 	s.repo.AssertExpectations(s.T())
 	s.hub.AssertExpectations(s.T())
