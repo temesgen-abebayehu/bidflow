@@ -154,6 +154,24 @@ services:
     networks:
       - bidflow-net
 
+  # ---------------------------------------------------------------------------
+  # API GATEWAY
+  # ---------------------------------------------------------------------------
+  gateway:
+    image: nginx:alpine
+    container_name: gateway
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - auth-service
+      - auction-service
+      - bidding-service
+      - notification-service
+    networks:
+      - bidflow-net
+
 networks:
   bidflow-net:
     driver: bridge
