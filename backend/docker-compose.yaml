@@ -157,13 +157,21 @@ services:
   # ---------------------------------------------------------------------------
   # API GATEWAY
   # ---------------------------------------------------------------------------
-  gateway:
-    image: nginx:alpine
-    container_name: gateway
+  api-gateway:
+    build:
+      context: .
+      dockerfile: services/api-gateway/Dockerfile
+    container_name: api-gateway
+    restart: on-failure
     ports:
-      - "80:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - "80:8080"
+    environment:
+      - APP_ENV=${APP_ENV}
+      - HTTP_PORT=8080
+      - AUTH_SERVICE_URL=http://auth-service:8080
+      - AUCTION_SERVICE_URL=http://auction-service:8081
+      - BIDDING_SERVICE_URL=http://bidding-service:8082
+      - NOTIFICATION_SERVICE_URL=http://notification-service:8084
     depends_on:
       - auth-service
       - auction-service
@@ -171,6 +179,7 @@ services:
       - notification-service
     networks:
       - bidflow-net
+
 
 networks:
   bidflow-net:
